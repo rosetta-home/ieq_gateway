@@ -34,8 +34,8 @@ defmodule IEQBackhaul.Mixfile do
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Christopher Steven Coté"],
       licenses: ["Apache License 2.0"],
-      links: %{"GitHub" => "https://github.com/NationalAssociationOfRealtors/ieq_backhaul",
-        "Docs" => "https://github.com/NationalAssociationOfRealtors/ieq_backhaul"}
+      links: %{"GitHub" => "https://github.com/NationalAssociationOfRealtors/ieq_gateway",
+        "Docs" => "https://github.com/NationalAssociationOfRealtors/ieq_gateway"}
     ]
   end
 
