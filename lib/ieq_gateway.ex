@@ -10,13 +10,17 @@ defmodule IEQGateway do
 
   def get_tty do
     Serial.enumerate |> Enum.each(fn({tty, device}) ->
-      case device.product_id do
+      Logger.info("#{inspect device}")
+      case Map.get(device, :product_id, 0) do
         24597 ->
-          Logger.info("Setting IEQ TTY: #{inspect tty}")
-          Application.put_env(:ieq_gateway, :tty, "/dev/#{tty}", persistent: true)
-          _ -> nil
-        end
-      end)
-    end
-
+          Logger.info("Setting Meteo TTY: #{inspect tty}")
+          tty = case String.starts_with?(tty, "/dev") do
+            true -> tty
+            false -> "/dev/#{tty}"
+          end
+          Application.put_env(:meteo_stick, :tty, tty, persistent: true)
+        _ -> nil
+      end
+    end)
   end
+end
