@@ -18,7 +18,7 @@ defmodule IEQGateway do
             true -> tty
             false -> "/dev/#{tty}"
           end
-          Application.put_env(:meteo_stick, :tty, tty, persistent: true)
+          Application.put_env(:ieq_gateway, :tty, tty, persistent: true)
         _ -> nil
       end
     end)
