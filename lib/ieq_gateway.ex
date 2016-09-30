@@ -13,7 +13,7 @@ defmodule IEQGateway do
       Logger.info("#{inspect device}")
       case Map.get(device, :product_id, 0) do
         24597 ->
-          Logger.info("Setting Meteo TTY: #{inspect tty}")
+          Logger.info("Setting IEQ TTY: #{inspect tty}")
           tty = case String.starts_with?(tty, "/dev") do
             true -> tty
             false -> "/dev/#{tty}"
