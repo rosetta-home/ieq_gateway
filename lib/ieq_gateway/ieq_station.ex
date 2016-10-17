@@ -56,7 +56,10 @@ defmodule IEQGateway.IEQStation do
   def handle_call({:data, data}, _from, state) do
     Logger.debug("Got Data: #{inspect data}")
     state = Enum.reduce(data, state, fn({key, value}, acc) ->
-      val = Float.parse(value) |> elem(0)
+      val = case Float.parse(value) do
+        {num, rem} -> num
+        :error -> 0.0
+      end
       struct(acc, %{@values[key] => val})
     end)
     Logger.debug("State Updated: #{inspect state}")
