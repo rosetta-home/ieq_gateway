@@ -3,6 +3,16 @@ defmodule IEQGateway do
   require Logger
   alias Nerves.UART, as: Serial
 
+  defmodule Modes do
+    defstruct white: "0",
+      red: "1",
+      green: "2",
+      blue: "3",
+      yellow: "4",
+      off: "5",
+      cycle: "6"
+  end
+
   def start(_type, _args) do
     get_tty
     {:ok, pid} = IEQGateway.Supervisor.start_link
@@ -22,5 +32,9 @@ defmodule IEQGateway do
         _ -> nil
       end
     end)
+  end
+
+  def set_station_mode(station, mode) do
+    IEQGateway.Client.set_station_mode(station, mode)
   end
 end

@@ -7,6 +7,10 @@ defmodule IEQGateway.Client do
     defstruct stations: []
   end
 
+  def set_station_mode(station, mode) do
+    GenServer.call(__MODULE__, {:set_station_mode, station, mode})
+  end
+
   def start_link() do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
@@ -19,6 +23,11 @@ defmodule IEQGateway.Client do
     Serial.configure(IEQGateway.Serial, framing: {Serial.Framing.Line, separator: "\r\n"})
     Serial.open(IEQGateway.Serial, tty, speed: speed, active: true)
     {:ok, %State{}}
+  end
+
+  def handle_call({:set_station_mode, station, mode}, _from, state) do
+    IEQGateway.Serial |> Serial.write("#{station},#{mode}n")
+    {:reply, :ok, state}
   end
 
   def handle_info({:nerves_uart, _serial, {:partial, _data}}, state) do
