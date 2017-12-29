@@ -49,6 +49,10 @@ defmodule IEQGateway.IEQStation do
     GenServer.call(station, {:data, data})
   end
 
+  def set_mode(station, mode) do
+    GenServer.cast(station, {:set_mode, mode})
+  end
+
   def init(id) do
     {:ok, %State{id: id}}
   end
@@ -65,6 +69,15 @@ defmodule IEQGateway.IEQStation do
     Logger.debug("State Updated: #{inspect state}")
     GenEvent.notify(IEQGateway.Events, state)
     {:reply, state, state}
+  end
+
+  def handle_cast({:set_mode, mode}, state) do
+    [_, id] =
+      state.id
+      |> Atom.to_string()
+      |> String.split("-", parts: 2)
+    IEQGateway.Client.set_station_mode(id, mode)
+    {:noreply, state}
   end
 
 end
