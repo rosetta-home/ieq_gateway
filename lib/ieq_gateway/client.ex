@@ -11,12 +11,11 @@ defmodule IEQGateway.Client do
     GenServer.cast(__MODULE__, {:set_station_mode, station, mode})
   end
 
-  def start_link() do
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+  def start_link(tty) do
+    GenServer.start_link(__MODULE__, tty, name: __MODULE__)
   end
 
-  def init(:ok) do
-    tty = Application.get_env(:ieq_gateway, :tty)
+  def init(tty) do
     speed = Application.get_env(:ieq_gateway, :speed)
     {:ok, serial} = Serial.start_link([{:name, IEQGateway.Serial}])
     Logger.debug "Starting Serial: #{tty}"

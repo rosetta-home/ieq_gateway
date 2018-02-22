@@ -1,13 +1,13 @@
 defmodule IEQGateway.Supervisor do
   use Supervisor
 
-  def start_link do
-    Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
+  def start_link(tty) do
+    Supervisor.start_link(__MODULE__, tty, name: __MODULE__)
   end
 
-  def init(:ok) do
+  def init(tty) do
     children = [
-      worker(IEQGateway.Client, []),
+      worker(IEQGateway.Client, [tty]),
       worker(IEQGateway.EventManager, []),
       supervisor(IEQGateway.StationSupervisor, []),
     ]

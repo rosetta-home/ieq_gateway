@@ -3,8 +3,8 @@ defmodule IEQBackhaul.Mixfile do
 
   def project do
     [app: :ieq_gateway,
-     version: "0.1.5",
-     elixir: "~> 1.3",
+     version: "0.1.6",
+     elixir: "~> 1.5",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      description: description(),
@@ -15,7 +15,6 @@ defmodule IEQBackhaul.Mixfile do
   def application do
     [
       applications: [:logger, :nerves_uart],
-      mod: {IEQGateway, []},
       env: [speed: 115200,
           tty: "/dev/ttyUSB989898",
       ]
