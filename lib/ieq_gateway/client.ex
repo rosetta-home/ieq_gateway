@@ -38,18 +38,16 @@ defmodule IEQGateway.Client do
   end
 
   def handle_info({:nerves_uart, _serial, data}, state) do
-    payload = data
-    |> String.split(",")
-    |> Enum.map(fn(kv) ->
-      String.split(kv, ":") |> List.to_tuple
-    end)
-    |> Enum.into(%{})
-
-    case Map.has_key?(payload, "i") do
-      true -> handle_data(payload, state)
-      _ -> :ok
+    with parts <- data |> String.split(","),
+      tuples <- parts |> Enum.map(fn k -> k |> String.split(":") |> List.to_tuple end),
+      payload <- tuples |> Enum.into(%{}),
+      true <- payload |> Map.has_key?("i") do
+      payload |> handle_data(state)
+    else
+      error ->
+        Logger.error("Bad Data: #{inspect data}")
+        :ok
     end
-
     {:noreply, state}
   end
 
