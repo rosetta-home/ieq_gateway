@@ -40,7 +40,7 @@ defmodule IEQBackhaul.Mixfile do
 
   defp deps do
     [
-      {:nerves_uart, "~> 1.0"},
+      {:nerves_uart, "~> 1.1"},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
