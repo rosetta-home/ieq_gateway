@@ -38,17 +38,35 @@ defmodule IEQGateway.Client do
   end
 
   def handle_info({:nerves_uart, _serial, data}, state) do
+    state =
+      with %{} = payload <- data |> parse_data,
+        state <- payload |> handle_data(state) do
+        state
+      else
+        error -> state
+      end
+    {:noreply, state}
+  end
+
+  def parse_data(data) do
     with parts <- data |> String.split(","),
       tuples <- parts |> Enum.map(fn k -> k |> String.split(":") |> List.to_tuple end),
-      payload <- tuples |> Enum.into(%{}),
+      %{} = payload <- tuples |> to_map(),
       true <- payload |> Map.has_key?("i") do
-      payload |> handle_data(state)
+      payload
     else
       error ->
         Logger.error("Bad Data: #{inspect data}")
-        :ok
+        :error
     end
-    {:noreply, state}
+  end
+
+  defp to_map(tuples) do
+    try do
+      tuples |> Enum.into(%{})
+    rescue
+      error -> %{}
+    end
   end
 
   def handle_data(data, state) do
