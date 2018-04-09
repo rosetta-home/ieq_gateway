@@ -2,13 +2,11 @@ defmodule IEQGatewayTest do
   use ExUnit.Case
   doctest IEQGateway
   require Logger
-  
-  test "the truth" do
-    assert 1 + 1 == 2
-  end
 
   test "parse" do
-    assert %{} = IEQGateway.Client.parse_data("i:300,r:-42,c:400")
+    data = IEQGateway.Client.parse_data("i:300,r:-42,c:403,z:2.567,a:16.09")
+    Logger.debug("Data: #{inspect data}")
+    assert %{} = data
     assert :error = IEQGateway.Client.parse_data("dsjkfhsaldifysaoidfuyoaisudyfoiasdyfoiausdyfoiuasydfiouasydfoiuasydfiouasydfoiasydfoiusydfoiasdyfoisydfiaousdyf,r:-889")
   end
 

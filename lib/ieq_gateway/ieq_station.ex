@@ -4,6 +4,7 @@ defmodule IEQGateway.IEQStation do
 
   defmodule State do
     defstruct id: 0,
+      air_temperature: 0,
       battery: 0,
       co2: 0,
       door: 0,
@@ -19,10 +20,12 @@ defmodule IEQGateway.IEQStation do
       sound: 0,
       temperature: 0,
       uv: 0,
-      voc: 0
+      voc: 0,
+      analog_voltage: 0
   end
 
   @values %{
+    "a" => :air_temperature,
     "b" => :battery,
     "c" => :co2,
     "d" => :door,
@@ -38,7 +41,8 @@ defmodule IEQGateway.IEQStation do
     "s" => :sound,
     "t" => :temperature,
     "u" => :uv,
-    "v" => :voc
+    "v" => :voc,
+    "z" => :analog_voltage
   }
 
   def start_link(id) do
