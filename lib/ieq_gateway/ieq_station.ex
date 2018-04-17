@@ -21,7 +21,9 @@ defmodule IEQGateway.IEQStation do
       temperature: 0,
       uv: 0,
       voc: 0,
-      analog_voltage: 0
+      analog_voltage: 0,
+      setpoint: 0,
+      diff_pressure: 0
   end
 
   @values %{
@@ -30,6 +32,7 @@ defmodule IEQGateway.IEQStation do
     "c" => :co2,
     "d" => :door,
     "e" => :energy,
+    "f" => :diff_pressure,
     "g" => :pressure,
     "h" => :humidity,
     "l" => :light,
@@ -42,6 +45,7 @@ defmodule IEQGateway.IEQStation do
     "t" => :temperature,
     "u" => :uv,
     "v" => :voc,
+    "y" => :setpoint,
     "z" => :analog_voltage
   }
 
